@@ -22,7 +22,8 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user.name}')
-
+    await bot.change_presence(activity=discord.Game(name="with your heart"))
+  
 
 
 @bot.command(pass_context=True)
