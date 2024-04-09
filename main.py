@@ -24,24 +24,11 @@ async def on_ready():
     print(f'Logged in as {bot.user.name}')
     await bot.change_presence(activity=discord.Game(name="in development"))
   
-
-
-
-
-
-
-
-
-
-
 #ping command
 @bot.command(name='ping')
 async def ping(ctx):
     latency = bot.latency
     await ctx.send(f'Pong! Latency: **{round(latency * 1000)}**ms')
-
-
-    
 
 bot.run(token)
   
