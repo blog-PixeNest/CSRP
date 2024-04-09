@@ -49,9 +49,6 @@ async def announce(ctx, *, message):
 
 
 
-
-
-
 bot.run(token)
   
   
