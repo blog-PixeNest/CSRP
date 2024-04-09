@@ -4,7 +4,6 @@ import os
 from keep_alive import keep_alive
 keep_alive()
 import random
-from discord_components import DiscordComponents, Button, ButtonStyle
 # Define your developer IDs here
 developer_ids = ['719648115639975946', '719648115639975946', '719648115639975946']
 
