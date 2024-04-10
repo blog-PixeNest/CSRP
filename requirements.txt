@@ -2,3 +2,4 @@ discord.py
 Flask
 discord-py-interactions
 discord-py-slash-command
+-U discord-py-interactions
