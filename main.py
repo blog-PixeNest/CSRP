@@ -27,6 +27,11 @@ async def on_ready():
     print(f'Logged in as {bot.user.name}')
     await bot.change_presence(activity=discord.Game(name="in development"))
 
+@bot.event
+async def on_guild_join(guild):
+    channel = guild.system_channel
+    if channel is not None:
+        await channel.send(f'Thanks for adding me to {guild.name}!')
 
 
 
