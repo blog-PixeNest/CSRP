@@ -1,5 +1,5 @@
 discord.py
 Flask
 discord-py-interactions
-discord-py-slash-command
-discord_slash
+slash-command
+
