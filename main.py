@@ -14,13 +14,15 @@ developer_ids = ['719648115639975946', '719648115639975946', '719648115639975946
 
 token = os.environ['token']
 
+
 intents = discord.Intents.default()
 intents.message_content = True
 intents.reactions = True
 intents.guilds = True
 intents.members = True
 
-bot = commands.Bot(command_prefix='!', intents=discord.Intents.default())
+
+bot = commands.Bot(command_prefix='!', intents=intents)
 
 @bot.event
 async def on_ready():
