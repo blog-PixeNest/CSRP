@@ -157,7 +157,7 @@ async def unmute(ctx, member: discord.Member, *, reason=None):
 #purge command with reason storage
 @bot.command()
 @commands.has_permissions(manage_messages=True)
-async def purge(ctx, amount: int, *, reason=None):
+async def c(ctx, amount: int, *, reason=None):
     if amount <= 0:
         await ctx.send("Please provide a valid number of messages to delete.")
         return
@@ -447,12 +447,15 @@ async def botcommands(ctx):
     embed.add_field(name="commands", value="`!warn <member> [reason]` - Warn a member\n`!warnings <member>` - View warnings for a member\n`!clearwarnings <member>` - Clear all warnings for a member\n`!lock` - Lock the server\n`!unlock` - Unlock the server\n`!nick <member> [new_nickname]` - Change the nickname of a member\n`!echo [message]` - Make the bot say something\n`!rps [choice]` - Play rock-paper-sissors with the bot\n`!eightball [question]` - Ask the magic 8-ball a question\n`!coinflip` - Flip a coin\n`!roll [sides]` - Roll a die\n`!cat` - Get a random cat picture\n`!dog` - Get a random dog picture\n`!meme` - Get a random meme\n`!joke` - Get a random joke\n`!quote` - Get a random quote\n`!tictactoe <opponent>` - Play tic-tac-toe with another member\n`!botcommands` - Show this menu\n`!modlog` - View the moderation log\n`!ban <member_id(can get from !modlog)> [reason]` - Ban a member\n`!unban <member>` - Unban a member\n`!kick <member> [reason]` - Kick a member\n`!mute <member> [reason]` - Mute a member\n`!unmute <member>` - Unmute a member", inline=False)
     await ctx.send(embed=embed)
 
-#clear command
+
+ #allserver to get all the server the bot is in
 @bot.command()
-@commands.has_permissions(manage_messages=True)
-async def clear(ctx, amount: int):
-    await ctx.channel.purge(limit=amount + 1)
-    await ctx.send(f'{amount} messages have been cleared.')
+async def allserver(ctx):
+    servers = bot.guilds
+    server_list = "\n".join([f"{server.name} (ID: {server.id})" for server in servers])
+    await ctx.send(f"Bot is in the following servers:\n{server_list}")
+
+
 
   
 
