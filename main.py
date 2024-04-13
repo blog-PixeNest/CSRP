@@ -448,18 +448,17 @@ async def botcommands(ctx):
     await ctx.send(embed=embed)
 
 
- #allserver to get all the server the bot is in
 @bot.command()
-async def allserver(ctx):
-    servers = bot.guilds
-    server_list = "\n".join([f"{server.name} (ID: {server.id})" for server in servers])
-    await ctx.send(f"Bot is in the following servers:\n{server_list}")
+async def listservers(ctx):  # ctx represents the command invocation's context
+    """Lists servers the bot is in along with owner IDs."""
 
+    # Build an embed for nicer message formatting
+    embed = discord.Embed(title="Server List", color=discord.Color.blue())
 
+    for guild in bot.guilds:
+        embed.add_field(name=guild.name, value=f"ID: {guild.id}, Owner ID: {guild.owner_id}", inline=False)
 
-  
-
-
+    await ctx.send(embed=embed)
     
 
          
