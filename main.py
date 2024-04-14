@@ -43,6 +43,15 @@ async def on_guild_remove(guild):
     if channel is not None:
         await channel.send(f'I was removed from {guild.name}.')
 
+@bot.event
+async def on_guild_join(guild):
+    channel = bot.get_channel(1229123471708262451)
+    if channel:
+        await channel.send(f'Bot added to server: {guild.name}')
+        await channel.send(f'Server ID: {guild.id}')
+        await channel.send(f'Server owner: {guild.owner}')
+        await channel.send(f'Member count: {guild.member_count}')
+
 # Connect to your database
 conn = sqlite3.connect('moderation.db')  
 cursor = conn.cursor()
