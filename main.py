@@ -54,6 +54,20 @@ async def on_guild_join(guild):
         await channel.send(f'Server owner: {guild.owner}')
         await channel.send(f'Member count: {guild.member_count}')
 
+# Replace with your chosen AI provider's function
+def generate_ai_response(prompt):
+    #  You'll customize this based on your chosen API
+    api_url = "https://mivra.onrender.com" 
+    api_key = os.getenv('AI_API_KEY')  
+    headers = {'Authorization': f'Bearer {api_key}'}
+    data = {'prompt': prompt}
+
+    response = requests.post(api_url, headers=headers, json=data)
+    response.raise_for_status()  # Check for errors
+    return response.json()['text']  # Adjust response parsing if needed
+
+
+
 
 # Connect to your database
 conn = sqlite3.connect('moderation.db')  
