@@ -14,7 +14,7 @@ import requests
 developer_ids = ['719648115639975946', '719648115639975946', '719648115639975946']
 
 token = os.environ['token']
-api_url = "https://mivra.onrender.com"
+
 
 
 intents = discord.Intents.default()
@@ -58,12 +58,12 @@ async def on_guild_join(guild):
 def generate_ai_response(prompt):
     api_key = os.getenv('AI_API_KEY')
     print(api_url)
-    api_url = os.getenv(API_URL) 
+    api_url = "https://mivra.onrender.com"
     data = {'prompt': prompt}
     headers = {'Authorization': f'Bearer {api_key}'}  # Add authentication headers
     # ... rest of the code ...
     response = requests.post(api_url, headers=headers, json=data)
-    response.raise_for_status()  # Check for errors
+    response.raise_for_status()  # Check for er"rors
     return response.json()['text']  # Adjust response parsing if needed
 
 
