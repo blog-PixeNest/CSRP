@@ -58,6 +58,7 @@ async def on_guild_join(guild):
 def generate_ai_response(prompt):
     api_key = os.getenv('AI_API_KEY')
     api_url = os.getenv('API_URL') 
+    data = {'prompt': prompt}
     headers = {'Authorization': f'Bearer {api_key}'}  # Add authentication headers
     # ... rest of the code ...
     response = requests.post(api_url, headers=headers, json=data)
@@ -483,16 +484,18 @@ async def listservers(ctx):  # ctx represents the command invocation's context
 
     await ctx.send(embed=embed)
     
-
-@bot.command()  # Use the bot.command decorator
-async def ask(ctx, *, question):  # Use ctx for context
+@bot.command()  
+async def ask(ctx, *, question=None):  # Make question optional 
     try:
-        ai_response = generate_ai_response(question)
-        await ctx.send(ai_response)
+        if question:
+            ai_response = generate_ai_response(question)
+            await ctx.send(ai_response)
+        else:
+            await ctx.send("You didn't ask a question! Maybe try something else?") 
+            # ... Do something else if no question is provided ...
     except Exception as e:
-        await ctx.send(f"Oops! Something went wrong. Error: {e}")
+        await ctx.send(f"Oops! Something went wrong. Error: {e}") 
 
-         
            
                 
               
