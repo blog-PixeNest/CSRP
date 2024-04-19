@@ -66,6 +66,21 @@ def generate_ai_response(prompt):
     response.raise_for_status()  # Check for errors
     return response.json()['text']  # Adjust response parsing if needed
 
+@bot.event
+async def on_message(message):
+    if message.author == client.user:
+        return
+
+    if message.content.startswith('!ask'):
+        question = message.content[5:].strip()  
+        try:
+            ai_response = generate_ai_response(question)
+            await message.channel.send(ai_response)
+        except Exception as e:
+            await message.channel.send(f"Oops! Something went wrong. Error: {e}")
+
+
+
 
 
 
