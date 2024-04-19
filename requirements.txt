@@ -3,6 +3,6 @@ Flask
 requests
 transformers
 transformers==4.13.0
-torch==1.10.1
+torch==1.9.1+cpu
 discord.py==1.7.3
 
