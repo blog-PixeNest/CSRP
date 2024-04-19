@@ -58,7 +58,7 @@ async def on_guild_join(guild):
 def generate_ai_response(prompt):
     api_key = os.getenv('AI_API_KEY')
     print(api_url)
-    api_url = os.getenv('API_URL') 
+    api_url = os.getenv(API_URL) 
     data = {'prompt': prompt}
     headers = {'Authorization': f'Bearer {api_key}'}  # Add authentication headers
     # ... rest of the code ...
