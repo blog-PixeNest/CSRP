@@ -7,12 +7,17 @@ import random
 import asyncio
 import sqlite3
 import requests
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
 
 
 # Define your developer IDs here
 developer_ids = ['719648115639975946', '719648115639975946', '719648115639975946']
 
 token = os.environ['token']
+
+# Load the GPT-3.5 model and tokenizer
+model = GPT2LMHeadModel.from_pretrained("gpt2")
+tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
 
 
 intents = discord.Intents.default()
@@ -51,6 +56,28 @@ async def on_guild_join(guild):
         await channel.send(f'Server ID: {guild.id}')
         await channel.send(f'Server owner: {guild.owner}')
         await channel.send(f'Member count: {guild.member_count}')
+
+@bot.event
+async def on_message(message):
+    if message.author == bot.user:
+        return
+
+    if message.content.startswith('!ask'):
+        question = message.content[len('!ask'):].strip()
+        if question:
+            await message.channel.send(ask_question(question))
+        else:
+            await message.channel.send('Please provide a question.')
+
+def ask_question(question):
+    try:
+        inputs = tokenizer.encode(question, return_tensors="pt")
+        outputs = model.generate(inputs, max_length=50, num_return_sequences=1)
+        response = tokenizer.decode(outputs[0], skip_special_tokens=True)
+        return response
+    except Exception as e:
+        print(f'Error: {e}')
+        return 'An error occurred while processing your question.'
 
 # Connect to your database
 conn = sqlite3.connect('moderation.db')  
