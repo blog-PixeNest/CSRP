@@ -14,7 +14,7 @@ import requests
 developer_ids = ['719648115639975946', '719648115639975946', '719648115639975946']
 
 token = os.environ['token']
-
+api_url = "https://mivra.onrender.com"
 
 
 intents = discord.Intents.default()
