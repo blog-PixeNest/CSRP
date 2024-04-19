@@ -2,4 +2,7 @@ discord.py
 Flask
 requests
 transformers
+transformers==4.13.0
+torch==1.10.1
+discord.py==1.7.3
 
