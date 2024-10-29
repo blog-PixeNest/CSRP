@@ -11,7 +11,7 @@ import requests
 
 
 # Define your developer IDs here
-developer_ids = ['719648115639975946', '719648115639975946', '719648115639975946']
+developer_ids = ['1258620191890341921', '1258620191890341921', '1258620191890341921']
 
 token = os.environ['token']
 
@@ -29,7 +29,7 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user.name}')
-    await bot.change_presence(activity=discord.Game(name="in development/!botcommands"))
+    await bot.change_presence(activity=discord.Game(name="CSRP"))
 
 #sends a message to the channel when the bot joins a server
 @bot.event
