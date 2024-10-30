@@ -82,7 +82,8 @@ class TicketControlView(View):
 
 @bot.event
 async def on_ready():
-# Send ticket panel on bot startup
+    print(f"Logged in as {bot.user}")
+    # Send ticket panel on bot startup
     channel = bot.get_channel(TICKET_PANEL_CHANNEL_ID)
     if channel:
         embed = discord.Embed(
@@ -99,11 +100,6 @@ async def on_ready():
 
 
 
-
-@bot.event
-async def on_ready():
-    print(f'Logged in as {bot.user.name}')
-    await bot.change_presence(activity=discord.Game(name="CSRP"))
 
 #sends a message to the channel when the bot joins a server
 @bot.event
