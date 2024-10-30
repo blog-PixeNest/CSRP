@@ -7,7 +7,7 @@ import random
 import asyncio
 import sqlite3
 import requests
-import discord.ui import Button, View
+from discord.ui import Button, View
 from discord.utils import get
 
 
