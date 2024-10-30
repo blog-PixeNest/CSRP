@@ -7,7 +7,8 @@ import random
 import asyncio
 import sqlite3
 import requests
-
+import discord.ui import Button, View
+from discord.utils import get
 
 
 # Define your developer IDs here
@@ -26,6 +27,79 @@ intents.members = True
 
 bot = commands.Bot(command_prefix='!', intents=intents)
 #bot is on/status
+
+TICKET_PANEL_CHANNEL_ID = 1299638775961489448  # replace with your channel ID
+TICKET_CATEGORY_ID = 1299638532083548223 # replace with your category ID
+
+
+class TicketView(View):
+    def __init__(self):
+        super().__init__(timeout=None)
+
+    @discord.ui.button(label="Create Ticket", style=discord.ButtonStyle.green, custom_id="create_ticket")
+    async def create_ticket(self, interaction: discord.Interaction, button: discord.ui.Button):
+        guild = interaction.guild
+        member = interaction.user
+
+        # Check if category exists
+        category = discord.utils.get(guild.categories, id=TICKET_CATEGORY_ID)
+        if not category:
+            await interaction.response.send_message("Ticket category not found.", ephemeral=True)
+            return
+
+        # Check if the user already has a ticket
+        existing_ticket = discord.utils.get(guild.text_channels, name=f"ticket-{member.id}")
+        if existing_ticket:
+            await interaction.response.send_message("You already have an open ticket.", ephemeral=True)
+            return
+
+        # Create a new ticket channel
+        ticket_channel = await category.create_text_channel(name=f"ticket-{member.id}", overwrites={
+            guild.default_role: discord.PermissionOverwrite(read_messages=False),
+            member: discord.PermissionOverwrite(read_messages=True, send_messages=True)
+        })
+
+        # Send ticket embed with close and claim buttons
+        await ticket_channel.send(content=f"{member.mention}", embed=discord.Embed(
+            title="Ticket",
+            description="Support will be with you shortly. Use the buttons below to close the ticket. if you don't need help. Explain what u need help with ",
+            color=discord.Color.blue()
+        ), view=TicketControlView())
+
+        await interaction.response.send_message(f"Ticket created: {ticket_channel.mention}", ephemeral=True)
+
+class TicketControlView(View):
+    def __init__(self):
+        super().__init__(timeout=None)
+
+    @discord.ui.button(label="Close Ticket", style=discord.ButtonStyle.red, custom_id="close_ticket")
+    async def close_ticket(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await interaction.channel.delete()
+
+    @discord.ui.button(label="Claim Ticket", style=discord.ButtonStyle.blurple, custom_id="claim_ticket")
+    async def claim_ticket(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await interaction.response.send_message("This ticket has been claimed by " + interaction.user.mention, ephemeral=False)
+
+@bot.event
+async def on_ready():
+# Send ticket panel on bot startup
+    channel = bot.get_channel(TICKET_PANEL_CHANNEL_ID)
+    if channel:
+        embed = discord.Embed(
+            title="Support Ticket",
+            description="Press the button below to create a support ticket.",
+            color=discord.Color.green()
+        )
+        await channel.send(embed=embed, view=TicketView())
+
+
+
+
+
+
+
+
+
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user.name}')
