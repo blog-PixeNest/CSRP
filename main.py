@@ -445,6 +445,11 @@ async def dog(ctx):
     image_url = data['message']
     await ctx.send(image_url)
 
+@bot.command()
+async def prefix(ctx, new_prefix):
+    bot.command_prefix = new_prefix
+    await ctx.send(f"Prefix changed to {new_prefix}")  
+
 #meme command
 @bot.command()
 async def meme(ctx):
