@@ -562,7 +562,59 @@ async def on_close():
 
 
 
+@bot.command()
+async def ticket(ctx):
+    # Create the embed
+    embed = discord.Embed(title="Ticket", description="Click the button below to create a ticket.", color=discord.Color.blue())
 
+    # Create the button
+    button = discord.ui.Button(style=discord.ButtonStyle.green, label="Create Ticket")
+
+    # Create the view and add the button to it
+    view = discord.ui.View()
+    view.add_item(button)
+
+    # Send the embed with the button
+    message = await ctx.send(embed=embed, view=view)
+
+    # Wait for the user to click the button
+    interaction = await bot.wait_for("button_click", check=lambda i: i.message.id == message.id)
+
+    # Create the ticket channel
+    ticket_channel = await ctx.guild.create_text_channel(f"ticket-{interaction.user.name}")
+
+    # Send a message in the ticket channel
+    await ticket_channel.send(f"Hello {interaction.user.mention}, your ticket has been created. Please wait for a staff member to assist you.")
+
+    # Remove the button from the view
+    view.clear_items()
+
+    # Send a message in the original channel
+    await interaction.response.send_message("Your ticket has been created. Please check your DMs for further instructions.")
+    # Send a message in the ticket channel with the button to claim the ticket
+    claim_button = discord.ui.Button(style=discord.ButtonStyle.green, label="Claim Ticket")
+    claim_view = discord.ui.View()
+    claim_view.add_item(claim_button)
+    await ticket_channel.send(f"{interaction.user.mention}, this ticket has been created by {interactio.user.mention}. Please click the button below to claim the ticket.", view=claim_view)
+    # Wait for the user to click the claim button
+    claim_interaction = await bot.wait_for("button_click", check=lambda i: i.message.id == ticket_channel.last_message_id)
+    # Send a message in the ticket channel to confirm that the ticket has been claimed
+    await ticket_channel.send(f"{claim_interaction.user.mention}, your ticket has been claimed by {interaction.user.mention}.")
+    # Remove the claim button from the view
+    claim_view.clear_items()
+#Wait for the user to click the close button
+close_button = discord.ui.Button(style=discord.ButtonStyle.red, label="Close Ticket")
+close_view = discord.ui.View()
+close_view.add_item(close_button)
+await ticket_channel.send(f"{interaction.user.mention}, this ticket has been created by {interactio.user.mention}. Please click the button below to close the ticket.", view=close_view)
+# Wait for the user to click the close button
+close_interaction = await bot.wait_for("button_click", check=lambda i: i.messag.id == ticket_channel.last_message_id)
+# Send a message in the ticket channel to confirm that the ticket has been closed
+await ticket_channel.send(f"{close_interaction.user.mention}, your ticket has been closed by {interaction.user.mention}.")
+# Remove the close button from the view
+close_view.clear_items()
+# Delete the ticket channel
+await ticket_channel.delete()
 
 
 
