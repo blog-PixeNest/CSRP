@@ -1,5 +1,4 @@
 discord.py
 Flask
 requests
-discord.ui 
-discord.utils 
+
